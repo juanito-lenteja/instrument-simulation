@@ -13,28 +13,36 @@ from Data.Schemas import (
 def register_routes(app : APIFlask, instrument : Instrument):
     @app.get('/instrument')
     @app.output(InstrumentInfoOut)
+    @app.doc(tags=['Endpoints'])
     def get_instrument_info():
         return instrument
 
     @app.get('/instrument/state')
     @app.output(InstrumentStateOut)
+    @app.doc(tags=['Endpoints'])
     def get_instrument_state():
         return instrument
 
     @app.put('/instrument/frequency')
     @app.input(Frequency)
+    @app.output({}, status_code=204)
+    @app.doc(tags=['Endpoints'])
     def set_instrument_frequency(json_data):
         instrument.set_frequency(json_data['frequency'])
         return '', 204
 
     @app.put('/instrument/amplitude')
     @app.input(Amplitude)
+    @app.output({}, status_code=204)
+    @app.doc(tags=['Endpoints'])
     def set_instrument_amplitude(json_data):
         instrument.set_amplitude(json_data['amplitude'])
         return '', 204
 
     @app.put('/instrument/output_enabled')
     @app.input(OutputEnabled)
+    @app.output({}, status_code=204)
+    @app.doc(tags=['Endpoints'])
     def set_instrument_output_enabled(json_data):
         instrument.set_output_enabled(json_data['output_enabled'])
         return '', 204

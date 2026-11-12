@@ -147,7 +147,10 @@
             "description": "Successful response"
           }
         },
-        "summary": "Get Instrument Info"
+        "summary": "Get Instrument Info",
+        "tags": [
+          "Endpoints"
+        ]
       }
     },
     "/instrument/amplitude": {
@@ -163,12 +166,7 @@
           }
         },
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
+          "204": {
             "description": "Successful response"
           },
           "422": {
@@ -182,7 +180,10 @@
             "description": "Validation error"
           }
         },
-        "summary": "Set Instrument Amplitude"
+        "summary": "Set Instrument Amplitude",
+        "tags": [
+          "Endpoints"
+        ]
       }
     },
     "/instrument/frequency": {
@@ -198,12 +199,7 @@
           }
         },
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
+          "204": {
             "description": "Successful response"
           },
           "422": {
@@ -217,7 +213,10 @@
             "description": "Validation error"
           }
         },
-        "summary": "Set Instrument Frequency"
+        "summary": "Set Instrument Frequency",
+        "tags": [
+          "Endpoints"
+        ]
       }
     },
     "/instrument/output_enabled": {
@@ -233,12 +232,7 @@
           }
         },
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
+          "204": {
             "description": "Successful response"
           },
           "422": {
@@ -252,7 +246,10 @@
             "description": "Validation error"
           }
         },
-        "summary": "Set Instrument Output Enabled"
+        "summary": "Set Instrument Output Enabled",
+        "tags": [
+          "Endpoints"
+        ]
       }
     },
     "/instrument/state": {
@@ -270,7 +267,10 @@
             "description": "Successful response"
           }
         },
-        "summary": "Get Instrument State"
+        "summary": "Get Instrument State",
+        "tags": [
+          "Endpoints"
+        ]
       }
     }
   },
