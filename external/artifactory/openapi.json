@@ -1,0 +1,278 @@
+{
+  "components": {
+    "schemas": {
+      "Amplitude": {
+        "additionalProperties": false,
+        "properties": {
+          "amplitude": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "type": "number"
+          }
+        },
+        "required": [
+          "amplitude"
+        ],
+        "type": "object"
+      },
+      "Frequency": {
+        "additionalProperties": false,
+        "properties": {
+          "frequency": {
+            "maximum": 1000000000.0,
+            "minimum": 1.0,
+            "type": "number"
+          }
+        },
+        "required": [
+          "frequency"
+        ],
+        "type": "object"
+      },
+      "InstrumentInfoOut": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "maxLength": 256,
+            "type": "string"
+          },
+          "firmware": {
+            "enum": [
+              "v1",
+              "v2"
+            ],
+            "type": "string"
+          },
+          "id": {
+            "enum": [
+              "SG-001"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "description",
+          "firmware",
+          "id"
+        ],
+        "type": "object"
+      },
+      "InstrumentStateOut": {
+        "additionalProperties": false,
+        "properties": {
+          "amplitude": {
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "type": "number"
+          },
+          "frequency": {
+            "maximum": 1000000000.0,
+            "minimum": 1.0,
+            "type": "number"
+          },
+          "id": {
+            "enum": [
+              "SG-001"
+            ],
+            "type": "string"
+          },
+          "output_enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "amplitude",
+          "frequency",
+          "id",
+          "output_enabled"
+        ],
+        "type": "object"
+      },
+      "OutputEnabled": {
+        "additionalProperties": false,
+        "properties": {
+          "output_enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "output_enabled"
+        ],
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "detail": {
+            "properties": {
+              "<location>": {
+                "properties": {
+                  "<field_name>": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "Interview Challenge",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/instrument": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentInfoOut"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get Instrument Info"
+      }
+    },
+    "/instrument/amplitude": {
+      "put": {
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Amplitude"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": "Validation error"
+          }
+        },
+        "summary": "Set Instrument Amplitude"
+      }
+    },
+    "/instrument/frequency": {
+      "put": {
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Frequency"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": "Validation error"
+          }
+        },
+        "summary": "Set Instrument Frequency"
+      }
+    },
+    "/instrument/output_enabled": {
+      "put": {
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OutputEnabled"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": "Validation error"
+          }
+        },
+        "summary": "Set Instrument Output Enabled"
+      }
+    },
+    "/instrument/state": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentStateOut"
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get Instrument State"
+      }
+    }
+  },
+  "tags": []
+}
