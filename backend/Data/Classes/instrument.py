@@ -5,6 +5,7 @@ from Data.Config import (
     freq_default,
     freq_range,
     id_default,
+    name_default,
     output_enabled_default,
     version_default,
 )
@@ -14,12 +15,14 @@ class Instrument():
     def __init__(
             self,
             id : str = id_default,
+            name : str = name_default,
             description : str = description_default,
             firmware : str = version_default,
             frequency : float = freq_default, 
             amplitude : float = amplitude_default, 
             output_enabled : bool = output_enabled_default):
         self.id = id
+        self.name = name
         self.description = description
         self.firmware = firmware
         self.frequency = frequency

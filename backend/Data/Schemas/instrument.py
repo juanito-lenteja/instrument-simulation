@@ -30,5 +30,6 @@ class InstrumentStateOut(Id, Frequency, Amplitude, OutputEnabled):
 
 
 class InstrumentInfoOut(Id):
+    name = fields.String(required=True, validate=Length(max=64))
     description = fields.String(required=True, validate=Length(max=256))
     firmware = fields.String(required=True, validate=OneOf(version_range))

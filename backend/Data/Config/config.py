@@ -15,6 +15,7 @@ output_enabled_default = False
 
 version_range = ['v1', 'v2']
 
+name_default = 'SG1G'
 description_default = '1GHz Signal Generator'
 version_default = 'v1'
 assert version_default in version_range
