@@ -1,0 +1,66 @@
+<section aria-labelledby="state-heading">
+  @if (state) {
+    <h1 id="state-heading">{{ state.id }}</h1>
+
+    <div class="state-form">
+      <div class="field">
+        <label for="frequency">Frequency (Hz)</label>
+        <input
+          id="frequency"
+          name="frequency"
+          type="number"
+          step="any"
+          inputmode="decimal"
+          [formControl]="stateForm.controls.frequency"
+          [class.input--updated]="updatedFields.frequency"
+          (keydown.enter)="commit('frequency')"
+          (blur)="commit('frequency')"
+        />
+        @if (errors.frequency) {
+          <p class="error" role="alert">{{ errors.frequency }}</p>
+        }
+      </div>
+
+      <div class="field">
+        <label for="amplitude">Amplitude (V)</label>
+        <input
+          id="amplitude"
+          name="amplitude"
+          type="number"
+          step="any"
+          inputmode="decimal"
+          [formControl]="stateForm.controls.amplitude"
+          [class.input--updated]="updatedFields.amplitude"
+          (keydown.enter)="commit('amplitude')"
+          (blur)="commit('amplitude')"
+        />
+        @if (errors.amplitude) {
+          <p class="error" role="alert">{{ errors.amplitude }}</p>
+        }
+      </div>
+
+      <div class="field">
+        <label for="output-enabled">Output enabled</label>
+        <select
+          id="output-enabled"
+          name="output-enabled"
+          [formControl]="stateForm.controls.output_enabled"
+          [class.input--updated]="updatedFields.output_enabled"
+          (change)="commit('output_enabled')"
+        >
+          <option [ngValue]="true">On</option>
+          <option [ngValue]="false">Off</option>
+        </select>
+        @if (errors.output_enabled) {
+          <p class="error" role="alert">{{ errors.output_enabled }}</p>
+        }
+      </div>
+    </div>
+  } @else if (!loadError) {
+    <p>Loading instrument state...</p>
+  }
+
+  @if (loadError) {
+    <p class="error" role="alert">{{ loadError }}</p>
+  }
+</section>

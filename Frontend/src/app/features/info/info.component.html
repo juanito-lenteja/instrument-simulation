@@ -1,0 +1,25 @@
+<section aria-labelledby="instrument-name">
+  @if (info) {
+    <h1 id="instrument-name">{{ info.name }}</h1>
+    <dl>
+      <div>
+        <dt>id:</dt>
+        <dd>{{ info.id }}</dd>
+      </div>
+      <div>
+        <dt>description:</dt>
+        <dd>{{ info.description }}</dd>
+      </div>
+      <div>
+        <dt>firmware:</dt>
+        <dd>{{ info.firmware }}</dd>
+      </div>
+    </dl>
+  } @else if (!error) {
+    <p>Loading instrument information...</p>
+  }
+
+  @if (error) {
+    <p class="error" role="alert">{{ error }}</p>
+  }
+</section>

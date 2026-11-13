@@ -13,6 +13,7 @@ export interface InstrumentInfoOut {
     description: string;
     firmware: InstrumentInfoOutFirmwareEnum;
     id: InstrumentInfoOutIdEnum;
+    name: string;
 }
 export enum InstrumentInfoOutFirmwareEnum {
     V1 = 'v1',

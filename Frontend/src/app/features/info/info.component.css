@@ -1,0 +1,30 @@
+h1 {
+  margin: 0 0 32px;
+  color: var(--color-red);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+dl {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+
+dl div {
+  display: flex;
+  gap: 8px;
+}
+
+dt,
+dd {
+  margin: 0;
+}
+
+dt {
+  font-weight: 700;
+}
+
+.error {
+  color: var(--color-red);
+}

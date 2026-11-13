@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.application-body {
+  display: flex;
+  min-height: calc(100vh - 57px);
+}
+
+.page-content {
+  flex: 1;
+  min-width: 0;
+  padding: 48px;
+}
+
+@media (max-width: 640px) {
+  .page-content {
+    padding: 32px 20px;
+  }
+}

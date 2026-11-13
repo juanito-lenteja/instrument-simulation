@@ -5,6 +5,7 @@ from Data.Config import (
     description_default,
     freq_default,
     id_default,
+    name_default,
     output_enabled_default,
     version_default,
 )
@@ -18,6 +19,7 @@ def test_get_instrument_info(client):
         'id': id_default,
         'description': description_default,
         'firmware': version_default,
+        'name': name_default,
     }
 
 

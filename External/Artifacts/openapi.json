@@ -48,12 +48,17 @@
               "SG-001"
             ],
             "type": "string"
+          },
+          "name": {
+            "maxLength": 64,
+            "type": "string"
           }
         },
         "required": [
           "description",
           "firmware",
-          "id"
+          "id",
+          "name"
         ],
         "type": "object"
       },

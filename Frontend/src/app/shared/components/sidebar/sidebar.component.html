@@ -1,0 +1,25 @@
+<aside class="sidebar" [class.sidebar--collapsed]="!isExpanded">
+  <button
+    class="sidebar__toggle"
+    type="button"
+    (click)="toggle()"
+    [attr.aria-expanded]="isExpanded"
+    aria-label="Toggle sidebar"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+
+  <nav class="sidebar__navigation" aria-label="Primary navigation">
+    <a routerLink="/info" routerLinkActive="sidebar__link--active" class="sidebar__link">
+      Info
+    </a>
+    <a routerLink="/state" routerLinkActive="sidebar__link--active" class="sidebar__link">
+      State
+    </a>
+    <a href="/docs" class="sidebar__link">
+      Documentation <span aria-hidden="true">&#8599;</span>
+    </a>
+  </nav>
+</aside>
