@@ -31,6 +31,6 @@ Navigate to the [Frontend's documentation](../Frontend/README.md) for more infor
 2. Scroll to 'Endpoints'.
 3. Click on the desired endpoint.
 4. Click on 'Try out'.
-5. If driving a put endpoint, edit the value. Else, go to the next item.
+5. If driving a put endpoint, edit the value.
 6. Click 'Execute'.
 7. Observe the output (under 'server response').
