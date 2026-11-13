@@ -21,18 +21,35 @@ export class InstrumentApiService {
   }
 
   async updateFrequency(value: number): Promise<void> {
-    await firstValueFrom(this.endpoints.instrumentFrequencyPut({ frequency: value }));
+    await this.update(
+      'frequency',
+      firstValueFrom(this.endpoints.instrumentFrequencyPut({ frequency: value }))
+    );
   }
 
   async updateAmplitude(value: number): Promise<void> {
-    await firstValueFrom(this.endpoints.instrumentAmplitudePut({ amplitude: value }));
+    await this.update(
+      'amplitude',
+      firstValueFrom(this.endpoints.instrumentAmplitudePut({ amplitude: value }))
+    );
   }
 
   async updateOutputEnabled(value: boolean): Promise<void> {
-    await firstValueFrom(this.endpoints.instrumentOutputEnabledPut({ output_enabled: value }));
+    await this.update(
+      'output_enabled',
+      firstValueFrom(this.endpoints.instrumentOutputEnabledPut({ output_enabled: value }))
+    );
   }
 
-  errorMessage(error: unknown, field: StateField): string {
+  private async update(field: StateField, request: Promise<unknown>): Promise<void> {
+    try {
+      await request;
+    } catch (error: unknown) {
+      throw new Error(this.errorMessage(error, field), { cause: error });
+    }
+  }
+
+  private errorMessage(error: unknown, field: StateField): string {
     if (!(error instanceof HttpErrorResponse)) {
       return `Unable to update ${this.displayName(field)}.`;
     }

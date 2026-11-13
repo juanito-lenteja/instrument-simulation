@@ -12,12 +12,12 @@
           step="any"
           inputmode="decimal"
           [formControl]="stateForm.controls.frequency"
-          [class.input--updated]="updatedFields.frequency"
-          (keydown.enter)="commit('frequency')"
-          (blur)="commit('frequency')"
+          [class.input--updated]="fieldStatus.frequency.updated"
+          (keydown.enter)="commitFrequency()"
+          (blur)="commitFrequency()"
         />
-        @if (errors.frequency) {
-          <p class="error" role="alert">{{ errors.frequency }}</p>
+        @if (fieldStatus.frequency.error) {
+          <p class="error" role="alert">{{ fieldStatus.frequency.error }}</p>
         }
       </div>
 
@@ -30,12 +30,12 @@
           step="any"
           inputmode="decimal"
           [formControl]="stateForm.controls.amplitude"
-          [class.input--updated]="updatedFields.amplitude"
-          (keydown.enter)="commit('amplitude')"
-          (blur)="commit('amplitude')"
+          [class.input--updated]="fieldStatus.amplitude.updated"
+          (keydown.enter)="commitAmplitude()"
+          (blur)="commitAmplitude()"
         />
-        @if (errors.amplitude) {
-          <p class="error" role="alert">{{ errors.amplitude }}</p>
+        @if (fieldStatus.amplitude.error) {
+          <p class="error" role="alert">{{ fieldStatus.amplitude.error }}</p>
         }
       </div>
 
@@ -45,14 +45,14 @@
           id="output-enabled"
           name="output-enabled"
           [formControl]="stateForm.controls.output_enabled"
-          [class.input--updated]="updatedFields.output_enabled"
-          (change)="commit('output_enabled')"
+          [class.input--updated]="fieldStatus.output_enabled.updated"
+          (change)="commitOutputEnabled()"
         >
           <option [ngValue]="true">On</option>
           <option [ngValue]="false">Off</option>
         </select>
-        @if (errors.output_enabled) {
-          <p class="error" role="alert">{{ errors.output_enabled }}</p>
+        @if (fieldStatus.output_enabled.error) {
+          <p class="error" role="alert">{{ fieldStatus.output_enabled.error }}</p>
         }
       </div>
     </div>

@@ -5,8 +5,12 @@ import { InstrumentApiService, StateField } from '../../core/services/instrument
 import { InstrumentStateOut } from '../../generated-api/model/instrumentStateOut';
 
 type EditableState = Pick<InstrumentStateOut, StateField>;
-type StateErrors = Partial<Record<StateField, string>>;
-type StateFlags = Record<StateField, boolean>;
+
+interface FieldStatus {
+  error: string;
+  pending: boolean;
+  updated: boolean;
+}
 
 @Component({
   selector: 'app-state',
@@ -23,22 +27,43 @@ export class StateComponent implements OnInit {
     output_enabled: new FormControl(false, { nonNullable: true })
   });
 
+  readonly fieldStatus: Record<StateField, FieldStatus> = {
+    frequency: this.createFieldStatus(),
+    amplitude: this.createFieldStatus(),
+    output_enabled: this.createFieldStatus()
+  };
+
   state?: InstrumentStateOut;
-  errors: StateErrors = {};
-  pendingFields: StateFlags = {
-    frequency: false,
-    amplitude: false,
-    output_enabled: false
-  };
-  updatedFields: StateFlags = {
-    frequency: false,
-    amplitude: false,
-    output_enabled: false
-  };
   loadError = '';
 
   ngOnInit(): void {
     void this.loadState();
+  }
+
+  commitFrequency(): void {
+    void this.saveControl(
+      'frequency',
+      this.stateForm.controls.frequency,
+      (value) => this.instrumentApi.updateFrequency(value),
+      'Frequency must be a number.'
+    );
+  }
+
+  commitAmplitude(): void {
+    void this.saveControl(
+      'amplitude',
+      this.stateForm.controls.amplitude,
+      (value) => this.instrumentApi.updateAmplitude(value),
+      'Amplitude must be a number.'
+    );
+  }
+
+  commitOutputEnabled(): void {
+    void this.saveControl(
+      'output_enabled',
+      this.stateForm.controls.output_enabled,
+      (value) => this.instrumentApi.updateOutputEnabled(value)
+    );
   }
 
   private async loadState(): Promise<void> {
@@ -57,79 +82,73 @@ export class StateComponent implements OnInit {
     }
   }
 
-  commit(field: StateField): void {
-    switch (field) {
-      case 'frequency':
-        void this.commitValue(
-          field,
-          this.stateForm.controls.frequency,
-          (value) => this.instrumentApi.updateFrequency(value)
-        );
-        break;
-      case 'amplitude':
-        void this.commitValue(
-          field,
-          this.stateForm.controls.amplitude,
-          (value) => this.instrumentApi.updateAmplitude(value)
-        );
-        break;
-      case 'output_enabled':
-        void this.commitValue(
-          field,
-          this.stateForm.controls.output_enabled,
-          (value) => this.instrumentApi.updateOutputEnabled(value)
-        );
-        break;
-    }
-  }
-
-  private async commitValue<K extends StateField>(
+  private async saveControl<K extends StateField>(
     field: K,
     control: FormControl<EditableState[K]>,
-    update: (value: EditableState[K]) => Promise<void>
+    update: (value: EditableState[K]) => Promise<void>,
+    invalidMessage = 'Invalid value.'
   ): Promise<void> {
-    if (!this.state || this.pendingFields[field]) {
+    if (!this.state) {
+      return;
+    }
+
+    const status = this.fieldStatus[field];
+    if (status.pending) {
       return;
     }
 
     const value = control.value;
     if (control.invalid || (typeof value === 'number' && !Number.isFinite(value))) {
-      this.errors[field] = `${this.label(field)} must be a number.`;
-      control.setValue(this.state[field]);
-      control.markAsPristine();
+      status.error = invalidMessage;
+      this.restoreControl(field, control);
       return;
     }
 
     if (!control.dirty || value === this.state[field]) {
-      this.errors[field] = '';
+      status.error = '';
       control.markAsPristine();
       return;
     }
 
-    this.pendingFields[field] = true;
+    status.pending = true;
     try {
       await update(value);
       this.state = { ...this.state, [field]: value };
       control.markAsPristine();
-      this.errors[field] = '';
-      this.highlight(field);
+      status.error = '';
+      this.highlight(status);
     } catch (error: unknown) {
-      this.errors[field] = this.instrumentApi.errorMessage(error, field);
-      control.setValue(this.state[field]);
-      control.markAsPristine();
+      status.error = error instanceof Error ? error.message : 'Unable to update instrument state.';
+      this.restoreControl(field, control);
     } finally {
-      this.pendingFields[field] = false;
+      status.pending = false;
     }
   }
 
-  private highlight(field: StateField): void {
-    this.updatedFields[field] = true;
+  private restoreControl<K extends StateField>(
+    field: K,
+    control: FormControl<EditableState[K]>
+  ): void {
+    if (!this.state) {
+      return;
+    }
+
+    control.setValue(this.state[field]);
+    control.markAsPristine();
+  }
+
+  private highlight(status: FieldStatus): void {
+    status.updated = true;
     setTimeout(() => {
-      this.updatedFields[field] = false;
+      status.updated = false;
     }, 450);
   }
 
-  private label(field: StateField): string {
-    return field.charAt(0).toUpperCase() + field.slice(1).replace('_', ' ');
+  private createFieldStatus(): FieldStatus {
+    return {
+      error: '',
+      pending: false,
+      updated: false
+    };
   }
 }
